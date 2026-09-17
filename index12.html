@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Дія</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(180deg, #91b9c7 0%, #b8dbe2 45%, #83adb8 100%);
+            --card-bg: #e5f2f3;
+            --card-border: rgba(255, 255, 255, 0.6);
+            --text-main: #0a1923;
+            --text-sub: #4f6e7d;
+            --ticker-bg: #20d070;
+            --ticker-text: #043318;
+            --dot-inactive: rgba(255, 255, 255, 0.4);
+            --dot-active: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "e-Ukraine", "SF Pro Display", "SF Pro Text", Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            padding-top: 24px;
+        }
+
+        /* Carousel Track Container */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .cards-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 10px 7vw 15px 7vw;
+            gap: 14px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .cards-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Card Container */
+        .doc-card-wrapper {
+            flex: 0 0 86vw;
+            max-width: 345px;
+            height: 450px;
+            scroll-snap-align: center;
+            perspective: 1000px;
+        }
+
+        .doc-card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border-radius: 28px;
+            box-shadow: 0 14px 30px rgba(10, 25, 35, 0.12);
+        }
+
+        .doc-card-wrapper.flipped .doc-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 28px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 22px 20px 18px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.12;
+            color: var(--text-main);
+            letter-spacing: -0.4px;
+        }
+
+        .card-body {
+            display: flex;
+            gap: 14px;
+            margin-top: 16px;
+            align-items: flex-start;
+        }
+
+        .photo-box {
+            width: 112px;
+            height: 146px;
+            background: #b5dadb;
+            border-radius: 16px;
+            overflow: hidden;
+            flex-shrink: 0;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.03);
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-placeholder {
+            font-size: 11px;
+            color: var(--text-sub);
+            text-align: center;
+            padding: 6px;
+            font-weight: 600;
+        }
+
+        .details-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-label {
+            font-size: 11.5px;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        .field-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 1px;
+        }
+
+        .signature-svg {
+            width: 68px;
+            height: 30px;
+            margin-top: 2px;
+            opacity: 0.85;
+        }
+
+        /* Ticker Marquee Banner */
+        .ticker-banner {
+            background: var(--ticker-bg);
+            color: var(--ticker-text);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 8px;
+            border-radius: 8px;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ticker-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #043318;
+            flex-shrink: 0;
+        }
+
+        .ticker-text-wrapper {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .ticker-text {
+            display: inline-block;
+            animation: marquee 13s linear infinite;
+            padding-left: 100%;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 6px;
+        }
+
+        .person-fullname {
+            font-size: 21px;
+            font-weight: 800;
+            line-height: 1.08;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: -0.2px;
+        }
+
+        .more-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #000000;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .more-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        /* Card Backside */
+        .card-back {
+            transform: rotateY(180deg);
+            background: #ffffff;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .back-header {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .qr-code {
+            width: 145px;
+            height: 145px;
+        }
+
+        .barcode {
+            width: 210px;
+            height: 32px;
+        }
+
+        .timer-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #007bc1;
+        }
+
+        /* Indicators (Diia Dots) */
+        .dots-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin: 8px 0 14px 0;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--dot-inactive);
+            transition: all 0.25s ease;
+        }
+
+        .dot.active {
+            width: 18px;
+            border-radius: 4px;
+            background: var(--dot-active);
+        }
+
+        /* Bottom Dark Navigation */
+        .bottom-nav {
+            background: rgba(12, 16, 20, 0.96);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 6px 22px 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            color: #727a82;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            color: #ffffff;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        #photoInput {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="file" id="photoInput" accept="image/*" onchange="updatePhoto(event)">
+
+    <!-- Main Content -->
+    <div class="main-container">
+        
+        <!-- Cards Carousel -->
+        <div class="cards-track" id="cardsTrack">
+
+            <!-- Card 1: Закордонний паспорт -->
+            <div class="doc-card-wrapper">
+                <div class="doc-card-inner">
+                    <div class="card-front">
+                        <div>
+                            <div class="card-title">Закордонний<br>паспорт</div>
+                            <div class="card-body">
+                                <div class="photo-box" onclick="triggerUpload()">
+                                    <img class="userPhoto" src="" style="display:none;">
+                                    <div class="photo-placeholder">📷<br>Додати фото</div>
+                                </div>
+                                <div class="details-box">
+                                    <div class="field-group">
+                                        <span class="field-label">Дата народження:</span>
+                                        <span class="field-value">21.09.2010</span>
+                                    </div>
+                                    <div class="field-group">
+                                        <span class="field-label">Номер:</span>
+                                        <span class="field-value">GN617185</span>
+                                    </div>
+                                    <svg class="signature-svg" viewBox="0 0 100 40">
+                                        <path d="M10,25 C20,10 35,5 45,25 C55,35 65,10 85,20" stroke="#0c1821" stroke-width="2.5" fill="none"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="ticker-banner">
+                                <div class="ticker-dot"></div>
+                                <div class="ticker-text-wrapper">
+                                    <span class="ticker-text">Документ оновлено о 19:13 | 17.09.2026 • Документ оновлено о 19:13 | 17.09.2026</span>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="person-fullname">ЛИСИЦЬКИЙ<br>ІВАН<br>АНАТОЛЬОВИЧ</div>
+                                <button class="more-btn" onclick="toggleFlip(this)">
+                                    <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back" onclick="toggleFlip(this)">
+                        <span class="back-header">Перевірка документа</span>
+                        <div class="qr-container">
+                            <svg class="qr-code" viewBox="0 0 24 24" fill="#000"><path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm8-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm14-2h4v2h-4v-2zm-4 4h2v2h-2v-2zm4 0h4v4h-4v-4zm-4 4h2v4h-2v-4zm4-2h2v2h-2v-2z"/></svg>
+                            <svg class="barcode" viewBox="0 0 100 20" fill="#000"><rect x="0" width="2" height="20"/><rect x="4" width="1" height="20"/><rect x="7" width="3" height="20"/><rect x="12" width="1" height="20"/><rect x="15" width="4" height="20"/><rect x="21" width="2" height="20"/><rect x="25" width="1" height="20"/><rect x="28" width="3" height="20"/><rect x="33" width="2" height="20"/><rect x="37" width="4" height="20"/><rect x="43" width="1" height="20"/><rect x="46" width="2" height="20"/><rect x="50" width="3" height="20"/><rect x="55" width="1" height="20"/><rect x="58" width="4" height="20"/><rect x="64" width="2" height="20"/><rect x="68" width="1" height="20"/><rect x="71" width="3" height="20"/><rect x="76" width="2" height="20"/><rect x="80" width="4" height="20"/><rect x="86" width="1" height="20"/><rect x="89" width="3" height="20"/><rect x="94" width="2" height="20"/><rect x="98" width="2" height="20"/></svg>
+                            <span class="timer-text">Код дійсний ще <span class="timer">03:00</span></span>
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-sub);">Натисніть щоб повернути</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Техпаспорт ТЗ -->
+            <div class="doc-card-wrapper">
+                <div class="doc-card-inner">
+                    <div class="card-front">
+                        <div>
+                            <div class="card-title">Техпаспорт ТЗ</div>
+                            <div class="details-box" style="margin-top: 22px;">
+                                <div class="field-group">
+                                    <span class="field-label">Марка / Модель:</span>
+                                    <span class="field-value" style="font-size: 17px;">KOVI JNC 300SR</span>
+                                </div>
+                                <div class="field-group" style="margin-top: 14px;">
+                                    <span class="field-label">Номерний знак:</span>
+                                    <span class="field-value" style="font-size: 24px; letter-spacing: 1px;">BK 6769 AH</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="ticker-banner">
+                                <div class="ticker-dot"></div>
+                                <div class="ticker-text-wrapper">
+                                    <span class="ticker-text">Документ оновлено о 19:13 | 17.09.2026 • Документ оновлено о 19:13 | 17.09.2026</span>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="person-fullname">ЛИСИЦЬКИЙ<br>ІВАН<br>АНАТОЛЬОВИЧ</div>
+                                <button class="more-btn" onclick="toggleFlip(this)">
+                                    <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back" onclick="toggleFlip(this)">
+                        <span class="back-header">Перевірка ТЗ</span>
+                        <div class="qr-container">
+                            <svg class="qr-code" viewBox="0 0 24 24" fill="#000"><path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm8-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm14-2h4v2h-4v-2zm-4 4h2v2h-2v-2zm4 0h4v4h-4v-4zm-4 4h2v4h-2v-4zm4-2h2v2h-2v-2z"/></svg>
+                            <span class="timer-text">Код дійсний ще <span class="timer">03:00</span></span>
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-sub);">Натисніть щоб повернути</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Посвідчення водія -->
+            <div class="doc-card-wrapper">
+                <div class="doc-card-inner">
+                    <div class="card-front">
+                        <div>
+                            <div class="card-title">Посвідчення водія</div>
+                            <div class="card-body">
+                                <div class="photo-box" onclick="triggerUpload()">
+                                    <img class="userPhoto" src="" style="display:none;">
+                                    <div class="photo-placeholder">📷<br>Додати фото</div>
+                                </div>
+                                <div class="details-box">
+                                    <div class="field-group">
+                                        <span class="field-label">Категорії:</span>
+                                        <span class="field-value" style="font-size: 16px; color: #0066b2;">A1, A, B</span>
+                                    </div>
+                                    <div class="field-group">
+                                        <span class="field-label">Орган видачі:</span>
+                                        <span class="field-value">ТСЦ 8041</span>
+                                    </div>
+                                    <div class="field-group">
+                                        <span class="field-label">Дійсне до:</span>
+                                        <span class="field-value">21.09.2038</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="ticker-banner">
+                                <div class="ticker-dot"></div>
+                                <div class="ticker-text-wrapper">
+                                    <span class="ticker-text">Документ оновлено о 19:13 | 17.09.2026 • Документ оновлено о 19:13 | 17.09.2026</span>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="person-fullname">ЛИСИЦЬКИЙ<br>ІВАН<br>АНАТОЛЬОВИЧ</div>
+                                <button class="more-btn" onclick="toggleFlip(this)">
+                                    <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back" onclick="toggleFlip(this)">
+                        <span class="back-header">Перевірка посвідчення</span>
+                        <div class="qr-container">
+                            <svg class="qr-code" viewBox="0 0 24 24" fill="#000"><path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm8-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm14-2h4v2h-4v-2zm-4 4h2v2h-2v-2zm4 0h4v4h-4v-4zm-4 4h2v4h-2v-4zm4-2h2v2h-2v-2z"/></svg>
+                            <span class="timer-text">Код дійсний ще <span class="timer">03:00</span></span>
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-sub);">Натисніть щоб повернути</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: єДокумент -->
+            <div class="doc-card-wrapper">
+                <div class="doc-card-inner">
+                    <div class="card-front">
+                        <div>
+                            <div class="card-title">єДокумент</div>
+                            <div class="card-body">
+                                <div class="photo-box" onclick="triggerUpload()">
+                                    <img class="userPhoto" src="" style="display:none;">
+                                    <div class="photo-placeholder">📷<br>Додати фото</div>
+                                </div>
+                                <div class="details-box">
+                                    <div class="field-group">
+                                        <span class="field-label">Статус:</span>
+                                        <span class="field-value" style="color: #0d8a43;">Особу підтверджено</span>
+                                    </div>
+                                    <div class="field-group">
+                                        <span class="field-label">Дата народження:</span>
+                                        <span class="field-value">21.09.2010</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="ticker-banner">
+                                <div class="ticker-dot"></div>
+                                <div class="ticker-text-wrapper">
+                                    <span class="ticker-text">Документ оновлено о 19:13 | 17.09.2026 • Документ оновлено о 19:13 | 17.09.2026</span>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="person-fullname">ЛИСИЦЬКИЙ<br>ІВАН<br>АНАТОЛЬОВИЧ</div>
+                                <button class="more-btn" onclick="toggleFlip(this)">
+                                    <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back" onclick="toggleFlip(this)">
+                        <span class="back-header">Перевірка єДокумента</span>
+                        <div class="qr-container">
+                            <svg class="qr-code" viewBox="0 0 24 24" fill="#000"><path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm8-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm14-2h4v2h-4v-2zm-4 4h2v2h-2v-2zm4 0h4v4h-4v-4zm-4 4h2v4h-2v-4zm4-2h2v2h-2v-2z"/></svg>
+                            <span class="timer-text">Код дійсний ще <span class="timer">03:00</span></span>
+                        </div>
+                        <span style="font-size: 10px; color: var(--text-sub);">Натисніть щоб повернути</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Pagination Dots -->
+        <div class="dots-indicator" id="dotsContainer"></div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>Стрічка</span>
+        </button>
+        <button class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 2v16h12V4H6zm2 3h8v2H8V7zm0 4h8v2H8v-2z"/></svg>
+            <span>Документи</span>
+        </button>
+        <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-6 11h-2v2H9v-2H7v-2h2v-2h2v2h2v2z"/></svg>
+            <span>Дія.AI</span>
+        </button>
+        <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M11 15H6l7-14v8h5l-7 14v-8z"/></svg>
+            <span>Сервіси</span>
+        </button>
+        <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Меню</span>
+        </button>
+    </nav>
+
+    <script>
+        const track = document.getElementById('cardsTrack');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const cardWrappers = document.querySelectorAll('.doc-card-wrapper');
+
+        cardWrappers.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${i === 0 ? 'active' : ''}`;
+            dotsContainer.appendChild(dot);
+        });
+
+        track.addEventListener('scroll', () => {
+            const cardWidth = cardWrappers[0].offsetWidth + 14;
+            const index = Math.round(track.scrollLeft / cardWidth);
+            const dots = dotsContainer.querySelectorAll('.dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        });
+
+        function toggleFlip(btnElement) {
+            const wrapper = btnElement.closest('.doc-card-wrapper');
+            wrapper.classList.toggle('flipped');
+        }
+
+        function triggerUpload() {
+            document.getElementById('photoInput').click();
+        }
+
+        function updatePhoto(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                document.querySelectorAll('.userPhoto').forEach(img => {
+                    img.src = reader.result;
+                    img.style.display = 'block';
+                });
+                document.querySelectorAll('.photo-placeholder').forEach(ph => ph.style.display = 'none');
+            };
+            if(event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
+        let time = 180;
+        setInterval(() => {
+            if(time <= 0) time = 180;
+            const m = Math.floor(time / 60).toString().padStart(2, '0');
+            const s = (time % 60).toString().padStart(2, '0');
+            document.querySelectorAll('.timer').forEach(el => el.innerText = `${m}:${s}`);
+            time--;
+        }, 1000);
+    </script>
+</body>
+</html>
