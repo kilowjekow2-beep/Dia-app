@@ -1,0 +1,3251 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<title>ДЕМО Дія</title>
+
+<style>
+:root{
+    --black:#0b0b0c;
+    --text:#101315;
+    --muted:rgba(16,19,21,.58);
+
+    --bg1:#8fd5e4;
+    --bg2:#c7e9e0;
+    --bg3:#b8ddc1;
+
+    --card:rgba(239,248,244,.68);
+    --card2:rgba(232,245,240,.62);
+    --border:rgba(255,255,255,.55);
+
+    --green:#36e274;
+
+    --nav-h:86px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        Arial,
+        sans-serif;
+
+    color:var(--text);
+
+    user-select:none;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    width:100%;
+    height:100dvh;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at -10% 5%,
+            rgba(80,190,218,.92),
+            transparent 39%
+        ),
+        radial-gradient(
+            circle at 105% 50%,
+            rgba(169,218,183,.92),
+            transparent 47%
+        ),
+        radial-gradient(
+            circle at 50% 110%,
+            rgba(198,231,215,.8),
+            transparent 48%
+        ),
+        linear-gradient(
+            145deg,
+            var(--bg1),
+            var(--bg2) 48%,
+            var(--bg3)
+        );
+
+    background-size:160% 160%;
+
+    animation:backgroundMove 17s ease-in-out infinite;
+}
+
+@keyframes backgroundMove{
+    0%{
+        background-position:0% 0%;
+    }
+
+    50%{
+        background-position:100% 100%;
+    }
+
+    100%{
+        background-position:0% 0%;
+    }
+}
+
+
+/* ========================================= */
+/* DEMO */
+/* ========================================= */
+
+.demo-badge{
+    position:fixed;
+
+    z-index:9999;
+
+    top:max(8px,env(safe-area-inset-top));
+    left:50%;
+
+    transform:translateX(-50%);
+
+    padding:6px 12px;
+
+    border-radius:100px;
+
+    background:#050505;
+
+    color:#fff;
+
+    font-size:9px;
+    font-weight:700;
+
+    letter-spacing:.75px;
+
+    white-space:nowrap;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.13);
+}
+
+
+/* ========================================= */
+/* PAGE SYSTEM */
+/* ========================================= */
+
+.page{
+    position:absolute;
+
+    inset:0 0 var(--nav-h) 0;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    padding:
+        max(56px,calc(env(safe-area-inset-top) + 45px))
+        17px
+        35px;
+
+    opacity:0;
+
+    visibility:hidden;
+    pointer-events:none;
+
+    transform:translateY(7px);
+
+    transition:
+        opacity .22s ease,
+        transform .28s cubic-bezier(.2,.8,.2,1),
+        visibility .22s;
+}
+
+.page.active{
+    opacity:1;
+
+    visibility:visible;
+    pointer-events:auto;
+
+    transform:translateY(0);
+}
+
+.page::-webkit-scrollbar{
+    display:none;
+}
+
+.page{
+    scrollbar-width:none;
+}
+
+
+/* ========================================= */
+/* HEADERS */
+/* ========================================= */
+
+.header{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:19px;
+}
+
+.header-left{
+    min-width:0;
+}
+
+.hello{
+    font-size:15px;
+
+    color:rgba(10,15,17,.7);
+
+    margin-bottom:2px;
+}
+
+.page-title{
+    font-size:32px;
+
+    line-height:1.02;
+
+    font-weight:500;
+
+    letter-spacing:-1.15px;
+}
+
+.avatar{
+    width:44px;
+    height:44px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:#090909;
+    color:#fff;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:15px;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.12);
+}
+
+
+/* ========================================= */
+/* FEED */
+/* ========================================= */
+
+.quick-actions{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:9px;
+
+    margin-bottom:13px;
+}
+
+.quick-card{
+    min-height:112px;
+
+    padding:13px 11px;
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    background:
+        rgba(238,248,244,.62);
+
+    backdrop-filter:blur(17px);
+    -webkit-backdrop-filter:blur(17px);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    box-shadow:
+        0 9px 24px rgba(35,80,85,.06);
+}
+
+.quick-icon{
+    width:35px;
+    height:35px;
+
+    border-radius:50%;
+
+    background:#090909;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.quick-icon svg{
+    width:18px;
+    height:18px;
+
+    stroke:currentColor;
+
+    fill:none;
+
+    stroke-width:1.8;
+
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.quick-title{
+    font-size:13px;
+
+    line-height:1.13;
+
+    font-weight:500;
+}
+
+
+/* BIG FEED CARD */
+
+.hero-card{
+    min-height:202px;
+
+    position:relative;
+
+    padding:20px;
+
+    border-radius:27px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(239,249,245,.82),
+            rgba(210,237,228,.64)
+        );
+
+    border:1px solid rgba(255,255,255,.6);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 12px 28px rgba(20,60,65,.07);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+}
+
+.hero-card::before{
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    border-radius:50%;
+
+    right:-35px;
+    top:-45px;
+
+    background:
+        rgba(94,196,206,.28);
+
+    filter:blur(2px);
+}
+
+.hero-card::after{
+    content:"DEMO";
+
+    position:absolute;
+
+    right:-3px;
+    bottom:-14px;
+
+    font-size:55px;
+
+    font-weight:800;
+
+    color:rgba(0,0,0,.035);
+
+    transform:rotate(-12deg);
+}
+
+.hero-label{
+    position:relative;
+
+    z-index:2;
+
+    font-size:11px;
+
+    color:var(--muted);
+}
+
+.hero-title{
+    position:relative;
+
+    z-index:2;
+
+    max-width:260px;
+
+    margin-top:9px;
+
+    font-size:26px;
+
+    line-height:1.03;
+
+    letter-spacing:-.75px;
+
+    font-weight:500;
+}
+
+.hero-text{
+    position:relative;
+
+    z-index:2;
+
+    max-width:275px;
+
+    margin-top:8px;
+
+    font-size:13px;
+
+    line-height:1.35;
+
+    color:rgba(20,35,38,.68);
+}
+
+.hero-button{
+    position:relative;
+
+    z-index:3;
+
+    width:max-content;
+
+    margin-top:18px;
+
+    padding:10px 16px;
+
+    border:0;
+
+    border-radius:100px;
+
+    background:#090909;
+
+    color:#fff;
+
+    font-size:12px;
+}
+
+
+/* WHAT'S NEW */
+
+.section-title{
+    margin-top:26px;
+    margin-bottom:12px;
+
+    font-size:25px;
+
+    font-weight:500;
+
+    letter-spacing:-.7px;
+}
+
+.news-track{
+    display:flex;
+
+    gap:10px;
+
+    overflow-x:auto;
+
+    margin:
+        0
+        -17px;
+
+    padding:
+        0
+        17px
+        5px;
+
+    scroll-snap-type:x mandatory;
+
+    scrollbar-width:none;
+}
+
+.news-track::-webkit-scrollbar{
+    display:none;
+}
+
+.news-card{
+    flex:0 0 76vw;
+
+    max-width:300px;
+
+    min-height:170px;
+
+    padding:18px;
+
+    border-radius:25px;
+
+    background:
+        rgba(236,247,242,.68);
+
+    border:
+        1px solid
+        rgba(255,255,255,.55);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    scroll-snap-align:start;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+}
+
+.news-date{
+    font-size:11px;
+
+    color:var(--muted);
+}
+
+.news-title{
+    margin-top:9px;
+
+    font-size:20px;
+
+    font-weight:500;
+
+    letter-spacing:-.4px;
+}
+
+.news-text{
+    margin-top:7px;
+
+    font-size:13px;
+
+    line-height:1.38;
+
+    color:rgba(20,35,38,.68);
+}
+
+.news-arrow{
+    align-self:flex-end;
+
+    width:36px;
+    height:36px;
+
+    border-radius:50%;
+
+    background:#090909;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    margin-top:12px;
+}
+
+
+/* ========================================= */
+/* DOCUMENTS */
+/* ========================================= */
+
+.documents-page{
+    padding-left:0;
+    padding-right:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+}
+
+.documents-heading{
+    padding:0 18px;
+
+    margin-bottom:8px;
+
+    font-size:29px;
+
+    font-weight:500;
+
+    letter-spacing:-1px;
+}
+
+.documents-track{
+    display:flex;
+
+    overflow-x:auto;
+
+    gap:12px;
+
+    padding:
+        7px
+        5vw
+        13px;
+
+    scroll-snap-type:x mandatory;
+
+    scroll-behavior:smooth;
+
+    -webkit-overflow-scrolling:touch;
+
+    scrollbar-width:none;
+}
+
+.documents-track::-webkit-scrollbar{
+    display:none;
+}
+
+.document-card{
+    flex:0 0 min(90vw,380px);
+
+    height:min(490px,64dvh);
+
+    position:relative;
+
+    overflow:hidden;
+
+    scroll-snap-align:center;
+
+    padding:23px 21px 19px;
+
+    border-radius:30px;
+
+    background:
+        rgba(225,241,234,.65);
+
+    border:
+        1px solid
+        rgba(255,255,255,.62);
+
+    backdrop-filter:blur(21px);
+    -webkit-backdrop-filter:blur(21px);
+
+    box-shadow:
+        0 14px 32px
+        rgba(20,60,65,.11);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+}
+
+.document-card::before{
+    content:"DEMO";
+
+    position:absolute;
+
+    left:50%;
+    top:49%;
+
+    transform:
+        translate(-50%,-50%)
+        rotate(-25deg);
+
+    font-size:67px;
+
+    letter-spacing:5px;
+
+    font-weight:800;
+
+    color:rgba(0,0,0,.045);
+}
+
+.doc-title{
+    position:relative;
+
+    z-index:2;
+
+    font-size:26px;
+
+    font-weight:400;
+
+    line-height:1.06;
+
+    letter-spacing:-.65px;
+}
+
+.doc-demo{
+    position:relative;
+
+    z-index:2;
+
+    display:inline-flex;
+
+    width:max-content;
+
+    margin-top:8px;
+
+    padding:5px 8px;
+
+    border-radius:7px;
+
+    border:
+        1px solid
+        rgba(0,0,0,.17);
+
+    font-size:9px;
+
+    font-weight:700;
+
+    letter-spacing:.55px;
+}
+
+.doc-body{
+    position:relative;
+
+    z-index:2;
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:17px;
+}
+
+.photo{
+    width:122px;
+    height:160px;
+
+    flex-shrink:0;
+
+    border-radius:17px;
+
+    overflow:hidden;
+
+    background:
+        rgba(168,207,207,.58);
+
+    border:
+        1px solid
+        rgba(255,255,255,.65);
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.photo img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    display:none;
+}
+
+.photo-placeholder{
+    color:var(--muted);
+
+    font-size:11px;
+
+    line-height:1.4;
+
+    text-align:center;
+}
+
+.photo-plus{
+    font-size:26px;
+}
+
+.doc-fields{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+}
+
+.field-label{
+    font-size:12px;
+
+    color:var(--muted);
+}
+
+.field-value{
+    margin-top:2px;
+
+    font-size:15px;
+
+    font-weight:500;
+}
+
+.doc-bottom{
+    position:relative;
+
+    z-index:2;
+}
+
+.ticker{
+    height:27px;
+
+    border-radius:8px;
+
+    margin-bottom:12px;
+
+    overflow:hidden;
+
+    background:var(--green);
+
+    color:#073619;
+
+    display:flex;
+
+    align-items:center;
+
+    white-space:nowrap;
+
+    font-size:10px;
+
+    font-weight:500;
+}
+
+.ticker span{
+    display:inline-block;
+
+    padding-left:100%;
+
+    animation:
+        tickerMove
+        13s
+        linear
+        infinite;
+}
+
+@keyframes tickerMove{
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(-100%);
+    }
+}
+
+.doc-footer{
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    gap:12px;
+}
+
+.person-name{
+    font-size:19px;
+
+    line-height:1.12;
+}
+
+.more{
+    width:43px;
+    height:43px;
+
+    border:0;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:#080808;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+}
+
+.more-dots{
+    display:flex;
+
+    gap:3px;
+}
+
+.more-dots i{
+    width:4px;
+    height:4px;
+
+    border-radius:50%;
+
+    background:#fff;
+}
+
+.dots{
+    height:22px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:6px;
+}
+
+.dot{
+    width:6px;
+    height:6px;
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.5);
+
+    transition:.25s;
+}
+
+.dot.active{
+    width:21px;
+
+    background:#fff;
+}
+
+
+/* ========================================= */
+/* AI */
+/* ========================================= */
+
+.ai-main{
+    min-height:420px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+}
+
+.ai-circle{
+    width:76px;
+    height:76px;
+
+    border-radius:50%;
+
+    background:#080808;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:32px;
+
+    margin-bottom:18px;
+
+    box-shadow:
+        0 13px 30px
+        rgba(0,0,0,.13);
+}
+
+.ai-title{
+    font-size:29px;
+
+    font-weight:500;
+
+    letter-spacing:-.8px;
+}
+
+.ai-text{
+    max-width:280px;
+
+    margin-top:8px;
+
+    font-size:13px;
+
+    line-height:1.4;
+
+    color:var(--muted);
+}
+
+.ai-input{
+    width:100%;
+
+    margin-top:24px;
+
+    padding:15px 17px;
+
+    border:1px solid rgba(255,255,255,.6);
+
+    border-radius:18px;
+
+    background:
+        rgba(239,248,244,.68);
+
+    color:#111;
+
+    outline:none;
+}
+
+
+/* ========================================= */
+/* SERVICES */
+/* ========================================= */
+
+.services-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+}
+
+.service-card{
+    min-height:148px;
+
+    padding:16px;
+
+    border-radius:24px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.58);
+
+    background:
+        rgba(236,247,242,.65);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+.service-card:active{
+    transform:scale(.975);
+
+    background:
+        rgba(245,250,248,.78);
+}
+
+.service-icon{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#090909;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.service-icon svg{
+    width:21px;
+    height:21px;
+
+    fill:none;
+
+    stroke:currentColor;
+
+    stroke-width:1.8;
+
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.service-title{
+    font-size:16px;
+
+    font-weight:500;
+
+    line-height:1.15;
+}
+
+
+/* ========================================= */
+/* MENU */
+/* ========================================= */
+
+.profile-card{
+    padding:18px;
+
+    margin-bottom:12px;
+
+    border-radius:25px;
+
+    background:
+        rgba(236,247,242,.67);
+
+    border:
+        1px solid
+        rgba(255,255,255,.58);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+}
+
+.profile-avatar{
+    width:55px;
+    height:55px;
+
+    border-radius:50%;
+
+    background:#090909;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:18px;
+}
+
+.profile-name{
+    font-size:18px;
+
+    font-weight:500;
+}
+
+.profile-demo{
+    margin-top:3px;
+
+    font-size:11px;
+
+    color:var(--muted);
+}
+
+.menu-list{
+    overflow:hidden;
+
+    border-radius:25px;
+
+    background:
+        rgba(236,247,242,.67);
+
+    border:
+        1px solid
+        rgba(255,255,255,.58);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+}
+
+.menu-row{
+    width:100%;
+
+    min-height:59px;
+
+    padding:0 16px;
+
+    border:0;
+    border-bottom:
+        1px solid
+        rgba(0,0,0,.07);
+
+    background:none;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    text-align:left;
+}
+
+.menu-row:last-child{
+    border-bottom:0;
+}
+
+.menu-row-icon{
+    width:34px;
+    height:34px;
+
+    border-radius:50%;
+
+    background:#090909;
+
+    color:#fff;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.menu-row-icon svg{
+    width:17px;
+    height:17px;
+
+    fill:none;
+
+    stroke:currentColor;
+
+    stroke-width:1.8;
+
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.menu-row-text{
+    flex:1;
+
+    font-size:15px;
+}
+
+.menu-arrow{
+    font-size:20px;
+
+    color:rgba(0,0,0,.35);
+}
+
+
+/* ========================================= */
+/* NAVIGATION */
+/* ========================================= */
+
+.bottom-nav{
+    position:absolute;
+
+    z-index:1000;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:var(--nav-h);
+
+    padding:
+        10px
+        3px
+        max(17px,env(safe-area-inset-bottom));
+
+    background:#030303;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.nav-item{
+    flex:1;
+
+    border:0;
+
+    background:none;
+
+    color:#77797d;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:4px;
+
+    font-size:9.5px;
+}
+
+.nav-item.active{
+    color:#fff;
+}
+
+.nav-icon{
+    width:28px;
+    height:28px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.nav-icon svg{
+    width:25px;
+    height:25px;
+
+    fill:none;
+
+    stroke:currentColor;
+
+    stroke-width:1.75;
+
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+
+/* ========================================= */
+/* ACTION SHEET */
+/* ========================================= */
+
+.overlay{
+    position:fixed;
+
+    z-index:5000;
+
+    inset:0;
+
+    background:
+        rgba(0,0,0,.37);
+
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    display:flex;
+
+    align-items:flex-end;
+
+    transition:
+        opacity .25s ease;
+}
+
+.overlay.active{
+    opacity:1;
+
+    pointer-events:auto;
+}
+
+.sheet{
+    width:100%;
+
+    padding:
+        10px
+        18px
+        max(31px,env(safe-area-inset-bottom));
+
+    border-radius:
+        28px
+        28px
+        0
+        0;
+
+    background:#fff;
+
+    transform:
+        translateY(100%);
+
+    transition:
+        transform
+        .34s
+        cubic-bezier(.2,.85,.2,1);
+}
+
+.overlay.active .sheet{
+    transform:
+        translateY(0);
+}
+
+.sheet-handle{
+    width:38px;
+    height:5px;
+
+    margin:
+        0
+        auto
+        12px;
+
+    border-radius:10px;
+
+    background:#d5d5d5;
+}
+
+.sheet-title{
+    padding:5px 8px 9px;
+
+    font-size:20px;
+
+    font-weight:600;
+}
+
+.sheet-item{
+    width:100%;
+
+    min-height:52px;
+
+    padding:0 8px;
+
+    border:0;
+
+    border-bottom:
+        1px solid
+        #ececec;
+
+    background:none;
+
+    text-align:left;
+
+    font-size:15px;
+}
+
+.sheet-warning{
+    margin-top:14px;
+
+    padding:11px 12px;
+
+    border-radius:12px;
+
+    background:#f1f3f3;
+
+    color:#555;
+
+    font-size:11px;
+
+    line-height:1.4;
+}
+
+
+/* ========================================= */
+/* SMALL SCREEN */
+/* ========================================= */
+
+@media(max-height:700px){
+
+    .document-card{
+        height:430px;
+    }
+
+    .photo{
+        width:105px;
+        height:137px;
+    }
+
+    .doc-title{
+        font-size:23px;
+    }
+
+    .person-name{
+        font-size:17px;
+    }
+
+    .documents-heading{
+        display:none;
+    }
+}
+
+#photoInput{
+    display:none;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- DEMO -->
+
+<div class="demo-badge">
+    DEMO • НЕ Є ЗАСТОСУНКОМ ДІЯ
+</div>
+
+
+<input
+    type="file"
+    id="photoInput"
+    accept="image/*">
+
+
+<!-- ====================================== -->
+<!-- FEED -->
+<!-- ====================================== -->
+
+<section
+    class="page active"
+    id="feedPage">
+
+
+<header class="header">
+
+    <div class="header-left">
+
+        <div class="hello">
+            Вітаємо
+        </div>
+
+        <div class="page-title">
+            Стрічка
+        </div>
+
+    </div>
+
+
+    <div class="avatar">
+        Д
+    </div>
+
+</header>
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="quick-actions">
+
+
+<div class="quick-card">
+
+    <div class="quick-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <rect
+                x="4"
+                y="3"
+                width="16"
+                height="18"
+                rx="3"/>
+
+            <path d="M8 8h8M8 12h6"/>
+
+        </svg>
+
+    </div>
+
+    <div class="quick-title">
+        Мої<br>документи
+    </div>
+
+</div>
+
+
+<div class="quick-card">
+
+    <div class="quick-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <circle
+                cx="12"
+                cy="12"
+                r="8"/>
+
+            <path d="M12 8v4l3 2"/>
+
+        </svg>
+
+    </div>
+
+    <div class="quick-title">
+        Історія<br>DEMO
+    </div>
+
+</div>
+
+
+<div class="quick-card">
+
+    <div class="quick-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <path d="M12 3v18M3 12h18"/>
+
+        </svg>
+
+    </div>
+
+    <div class="quick-title">
+        DEMO<br>сервіси
+    </div>
+
+</div>
+
+
+</div>
+
+
+<!-- HERO -->
+
+<article class="hero-card">
+
+    <div>
+
+        <div class="hero-label">
+            DEMO • тестова інформація
+        </div>
+
+        <div class="hero-title">
+            Усе потрібне в одному місці
+        </div>
+
+        <div class="hero-text">
+            Демонстраційний екран для перевірки
+            дизайну та анімацій мобільного інтерфейсу.
+        </div>
+
+    </div>
+
+
+    <button
+        class="hero-button"
+        onclick="openPage('documents')">
+
+        Переглянути DEMO
+
+    </button>
+
+</article>
+
+
+<!-- NEW -->
+
+<div class="section-title">
+    Що нового?
+</div>
+
+
+<div class="news-track">
+
+
+<article class="news-card">
+
+    <div>
+
+        <div class="news-date">
+            Сьогодні
+        </div>
+
+        <div class="news-title">
+            Новий дизайн DEMO
+        </div>
+
+        <div class="news-text">
+            Оновлений фон, картки,
+            навігація та плавні переходи.
+        </div>
+
+    </div>
+
+    <div class="news-arrow">
+        →
+    </div>
+
+</article>
+
+
+<article class="news-card">
+
+    <div>
+
+        <div class="news-date">
+            17 вересня
+        </div>
+
+        <div class="news-title">
+            Документи
+        </div>
+
+        <div class="news-text">
+            Додано демонстраційні картки
+            зі свайпом та тестовими даними.
+        </div>
+
+    </div>
+
+    <div class="news-arrow">
+        →
+    </div>
+
+</article>
+
+
+<article class="news-card">
+
+    <div>
+
+        <div class="news-date">
+            DEMO
+        </div>
+
+        <div class="news-title">
+            Нові сервіси
+        </div>
+
+        <div class="news-text">
+            Тестова сітка сервісів
+            для демонстрації інтерфейсу.
+        </div>
+
+    </div>
+
+    <div class="news-arrow">
+        →
+    </div>
+
+</article>
+
+
+</div>
+
+</section>
+
+
+<!-- ====================================== -->
+<!-- DOCUMENTS -->
+<!-- ====================================== -->
+
+<section
+    class="page documents-page"
+    id="documentsPage">
+
+
+<div class="documents-heading">
+    Документи
+</div>
+
+
+<div
+    class="documents-track"
+    id="documentsTrack">
+
+
+<!-- EDOCUMENT -->
+
+<article class="document-card">
+
+<div>
+
+    <div class="doc-title">
+        єДокумент
+    </div>
+
+    <div class="doc-demo">
+        DEMO • ТЕСТОВІ ДАНІ
+    </div>
+
+
+    <div class="doc-body">
+
+        <div class="photo">
+
+            <img class="userPhoto">
+
+            <div class="photo-placeholder">
+
+                <div class="photo-plus">
+                    ＋
+                </div>
+
+                Додати фото
+
+            </div>
+
+        </div>
+
+
+        <div class="doc-fields">
+
+            <div>
+
+                <div class="field-label">
+                    Дата народження:
+                </div>
+
+                <div class="field-value">
+                    01.01.2000
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="field-label">
+                    Ідентифікатор:
+                </div>
+
+                <div class="field-value">
+                    DEMO-0001
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc-bottom">
+
+    <div class="ticker">
+
+        <span>
+            DEMO • НЕ Є ЦИФРОВИМ ДОКУМЕНТОМ • DEMO •
+        </span>
+
+    </div>
+
+
+    <div class="doc-footer">
+
+        <div class="person-name">
+            ТЕСТОВИЙ<br>
+            КОРИСТУВАЧ
+        </div>
+
+
+        <button class="more">
+
+            <span class="more-dots">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+</article>
+
+
+<!-- TAX -->
+
+<article class="document-card">
+
+<div>
+
+    <div class="doc-title">
+        Картка платника<br>
+        податків
+    </div>
+
+    <div class="doc-demo">
+        DEMO • ТЕСТОВІ ДАНІ
+    </div>
+
+
+    <div style="
+        margin-top:28px;
+        font-size:21px;
+        line-height:1.15;
+    ">
+
+        ТЕСТОВИЙ<br>
+        КОРИСТУВАЧ
+
+    </div>
+
+
+    <div style="margin-top:22px">
+
+        <div class="field-label">
+            Дата народження:
+        </div>
+
+        <div class="field-value">
+            01.01.2000
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc-bottom">
+
+    <div class="ticker">
+
+        <span>
+            DEMO • НЕ ПІДКЛЮЧЕНО ДО ДЕРЖАВНИХ РЕЄСТРІВ •
+        </span>
+
+    </div>
+
+
+    <div class="doc-footer">
+
+        <div style="
+            font-size:24px;
+            font-weight:500;
+        ">
+            DEMO-0002
+        </div>
+
+
+        <button class="more">
+
+            <span class="more-dots">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+</article>
+
+
+<!-- PASSPORT -->
+
+<article class="document-card">
+
+<div>
+
+    <div class="doc-title">
+        Паспорт громадянина<br>
+        України
+    </div>
+
+    <div class="doc-demo">
+        DEMO • НЕ Є ПАСПОРТОМ
+    </div>
+
+
+    <div class="doc-body">
+
+        <div class="photo">
+
+            <img class="userPhoto">
+
+            <div class="photo-placeholder">
+
+                <div class="photo-plus">
+                    ＋
+                </div>
+
+                Додати фото
+
+            </div>
+
+        </div>
+
+
+        <div class="doc-fields">
+
+            <div>
+
+                <div class="field-label">
+                    Дата народження:
+                </div>
+
+                <div class="field-value">
+                    01.01.2000
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="field-label">
+                    Номер:
+                </div>
+
+                <div class="field-value">
+                    DEMO-0003
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc-bottom">
+
+    <div class="ticker">
+
+        <span>
+            ДЕМОНСТРАЦІЙНИЙ МАКЕТ • НЕ Є ДОКУМЕНТОМ •
+        </span>
+
+    </div>
+
+
+    <div class="doc-footer">
+
+        <div class="person-name">
+            ТЕСТОВИЙ<br>
+            КОРИСТУВАЧ
+        </div>
+
+
+        <button class="more">
+
+            <span class="more-dots">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+</article>
+
+
+<!-- FOREIGN -->
+
+<article class="document-card">
+
+<div>
+
+    <div class="doc-title">
+        Закордонний<br>
+        паспорт
+    </div>
+
+    <div class="doc-demo">
+        DEMO • НЕ Є ПАСПОРТОМ
+    </div>
+
+
+    <div class="doc-body">
+
+        <div class="photo">
+
+            <img class="userPhoto">
+
+            <div class="photo-placeholder">
+
+                <div class="photo-plus">
+                    ＋
+                </div>
+
+                Додати фото
+
+            </div>
+
+        </div>
+
+
+        <div class="doc-fields">
+
+            <div>
+
+                <div class="field-label">
+                    Дата народження:
+                </div>
+
+                <div class="field-value">
+                    01.01.2000
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="field-label">
+                    Номер:
+                </div>
+
+                <div class="field-value">
+                    DEMO-0004
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc-bottom">
+
+    <div class="ticker">
+
+        <span>
+            DEMO • ТЕСТОВА КАРТКА • НЕ Є ДОКУМЕНТОМ •
+        </span>
+
+    </div>
+
+
+    <div class="doc-footer">
+
+        <div class="person-name">
+            ТЕСТОВИЙ<br>
+            КОРИСТУВАЧ
+        </div>
+
+
+        <button class="more">
+
+            <span class="more-dots">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+</article>
+
+
+<!-- DRIVER -->
+
+<article class="document-card">
+
+<div>
+
+    <div class="doc-title">
+        Посвідчення водія
+    </div>
+
+    <div class="doc-demo">
+        DEMO • ТЕСТОВІ ДАНІ
+    </div>
+
+
+    <div class="doc-body">
+
+        <div class="photo">
+
+            <img class="userPhoto">
+
+            <div class="photo-placeholder">
+
+                <div class="photo-plus">
+                    ＋
+                </div>
+
+                Додати фото
+
+            </div>
+
+        </div>
+
+
+        <div class="doc-fields">
+
+            <div>
+
+                <div class="field-label">
+                    Номер:
+                </div>
+
+                <div class="field-value">
+                    DEMO-0005
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="field-label">
+                    Категорія:
+                </div>
+
+                <div class="field-value">
+                    DEMO
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc-bottom">
+
+    <div class="ticker">
+
+        <span>
+            DEMO • НЕ Є ПОСВІДЧЕННЯМ ВОДІЯ •
+        </span>
+
+    </div>
+
+
+    <div class="doc-footer">
+
+        <div class="person-name">
+            ТЕСТОВИЙ<br>
+            КОРИСТУВАЧ
+        </div>
+
+
+        <button class="more">
+
+            <span class="more-dots">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+</article>
+
+
+</div>
+
+
+<div
+    class="dots"
+    id="documentDots">
+</div>
+
+</section>
+
+
+<!-- ====================================== -->
+<!-- AI -->
+<!-- ====================================== -->
+
+<section
+    class="page"
+    id="aiPage">
+
+
+<header class="header">
+
+    <div>
+
+        <div class="page-title">
+            Дія.AI
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="ai-main">
+
+    <div class="ai-circle">
+        ✦
+    </div>
+
+    <div class="ai-title">
+        DEMO AI
+    </div>
+
+    <div class="ai-text">
+        Демонстраційний екран.
+        AI-функції та державні сервіси
+        тут не підключені.
+    </div>
+
+
+    <input
+        class="ai-input"
+        placeholder="Напишіть повідомлення…"
+        disabled>
+
+</div>
+
+</section>
+
+
+<!-- ====================================== -->
+<!-- SERVICES -->
+<!-- ====================================== -->
+
+<section
+    class="page"
+    id="servicesPage">
+
+
+<header class="header">
+
+    <div>
+
+        <div class="page-title">
+            Сервіси
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="services-grid">
+
+
+<div class="service-card">
+
+    <div class="service-icon">
+
+        <svg viewBox="0 0 24 24">
+            <rect
+                x="4"
+                y="3"
+                width="16"
+                height="18"
+                rx="3"/>
+            <path d="M8 8h8M8 12h6"/>
+        </svg>
+
+    </div>
+
+    <div class="service-title">
+        Документи
+    </div>
+
+</div>
+
+
+<div class="service-card">
+
+    <div class="service-icon">
+
+        <svg viewBox="0 0 24 24">
+            <circle
+                cx="12"
+                cy="12"
+                r="8"/>
+            <path d="M8 12h8M12 8v8"/>
+        </svg>
+
+    </div>
+
+    <div class="service-title">
+        DEMO-сервіс
+    </div>
+
+</div>
+
+
+<div class="service-card">
+
+    <div class="service-icon">
+
+        <svg viewBox="0 0 24 24">
+            <path d="M4 17l4-4 3 3 6-7 3 3"/>
+        </svg>
+
+    </div>
+
+    <div class="service-title">
+        Статистика
+    </div>
+
+</div>
+
+
+<div class="service-card">
+
+    <div class="service-icon">
+
+        <svg viewBox="0 0 24 24">
+            <circle
+                cx="12"
+                cy="12"
+                r="8"/>
+            <path d="M12 8v4l3 2"/>
+        </svg>
+
+    </div>
+
+    <div class="service-title">
+        Історія
+    </div>
+
+</div>
+
+
+<div class="service-card">
+
+    <div class="service-icon">
+
+        <svg viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5v14"/>
+        </svg>
+
+    </div>
+
+    <div class="service-title">
+        Додати
+    </div>
+
+</div>
+
+
+<div class="service-card">
+
+    <div class="service-icon">
+
+        <svg viewBox="0 0 24 24">
+            <circle
+                cx="12"
+                cy="12"
+                r="8"/>
+            <path d="M9.5 9a3 3 0 015 2c0 2-2.5 2.5-2.5 4"/>
+            <path d="M12 18h.01"/>
+        </svg>
+
+    </div>
+
+    <div class="service-title">
+        Допомога
+    </div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- ====================================== -->
+<!-- MENU -->
+<!-- ====================================== -->
+
+<section
+    class="page"
+    id="menuPage">
+
+
+<header class="header">
+
+    <div>
+
+        <div class="page-title">
+            Меню
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="profile-card">
+
+    <div class="profile-avatar">
+        Д
+    </div>
+
+    <div>
+
+        <div class="profile-name">
+            Тестовий користувач
+        </div>
+
+        <div class="profile-demo">
+            DEMO-профіль
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="menu-list">
+
+
+<button class="menu-row">
+
+    <div class="menu-row-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <circle
+                cx="12"
+                cy="8"
+                r="3"/>
+
+            <path d="M6 19c1-3 3-5 6-5s5 2 6 5"/>
+
+        </svg>
+
+    </div>
+
+    <div class="menu-row-text">
+        DEMO-профіль
+    </div>
+
+    <div class="menu-arrow">
+        ›
+    </div>
+
+</button>
+
+
+<button class="menu-row">
+
+    <div class="menu-row-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <path d="M12 3l2 3 4 .5-2.5 3 1 4-4.5-1.5L8 14l.5-4.5L6 7l4-.5z"/>
+
+        </svg>
+
+    </div>
+
+    <div class="menu-row-text">
+        Налаштування
+    </div>
+
+    <div class="menu-arrow">
+        ›
+    </div>
+
+</button>
+
+
+<button class="menu-row">
+
+    <div class="menu-row-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <path d="M6 9a6 6 0 0112 0v5"/>
+            <path d="M6 14H4v4h4v-4H6zm12 0h2v4h-4v-4h2z"/>
+
+        </svg>
+
+    </div>
+
+    <div class="menu-row-text">
+        Підтримка
+    </div>
+
+    <div class="menu-arrow">
+        ›
+    </div>
+
+</button>
+
+
+<button class="menu-row">
+
+    <div class="menu-row-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <circle
+                cx="12"
+                cy="12"
+                r="8"/>
+
+            <path d="M12 11v5M12 8h.01"/>
+
+        </svg>
+
+    </div>
+
+    <div class="menu-row-text">
+        Про DEMO
+    </div>
+
+    <div class="menu-arrow">
+        ›
+    </div>
+
+</button>
+
+
+</div>
+
+</section>
+
+
+<!-- ====================================== -->
+<!-- NAV -->
+<!-- ====================================== -->
+
+<nav class="bottom-nav">
+
+
+<button
+    class="nav-item active"
+    data-page="feed">
+
+    <div class="nav-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <rect
+                x="4"
+                y="3"
+                width="16"
+                height="18"
+                rx="3"/>
+
+            <path d="M8 8h8M8 12h8M8 16h5"/>
+
+        </svg>
+
+    </div>
+
+    <span>
+        Стрічка
+    </span>
+
+</button>
+
+
+<button
+    class="nav-item"
+    data-page="documents">
+
+    <div class="nav-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <rect
+                x="3.5"
+                y="4"
+                width="17"
+                height="16"
+                rx="3"/>
+
+            <path d="M7 8h10M7 12h7"/>
+
+        </svg>
+
+    </div>
+
+    <span>
+        Документи
+    </span>
+
+</button>
+
+
+<button
+    class="nav-item"
+    data-page="ai">
+
+    <div class="nav-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <rect
+                x="3.5"
+                y="3.5"
+                width="17"
+                height="17"
+                rx="5"/>
+
+            <path d="M12 8v8M8 12h8"/>
+
+        </svg>
+
+    </div>
+
+    <span>
+        Дія.AI
+    </span>
+
+</button>
+
+
+<button
+    class="nav-item"
+    data-page="services">
+
+    <div class="nav-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <rect
+                x="3.5"
+                y="3.5"
+                width="17"
+                height="17"
+                rx="5"/>
+
+            <path d="M13 7.5l-4 5.5h5l-1 3.5"/>
+
+        </svg>
+
+    </div>
+
+    <span>
+        Сервіси
+    </span>
+
+</button>
+
+
+<button
+    class="nav-item"
+    data-page="menu">
+
+    <div class="nav-icon">
+
+        <svg viewBox="0 0 24 24">
+
+            <circle
+                cx="12"
+                cy="12"
+                r="8.5"/>
+
+            <circle
+                cx="12"
+                cy="9.5"
+                r="2.8"/>
+
+            <path d="M7 17.8c1.3-2.1 3-3.1 5-3.1s3.7 1 5 3.1"/>
+
+        </svg>
+
+    </div>
+
+    <span>
+        Меню
+    </span>
+
+</button>
+
+
+</nav>
+
+</div>
+
+
+<!-- ====================================== -->
+<!-- DOCUMENT MENU -->
+<!-- ====================================== -->
+
+<div
+    class="overlay"
+    id="overlay">
+
+
+<div class="sheet">
+
+
+<div class="sheet-handle"></div>
+
+
+<div class="sheet-title">
+    DEMO-документ
+</div>
+
+
+<button class="sheet-item">
+    Інформація про картку
+</button>
+
+
+<button class="sheet-item">
+    Змінити порядок
+</button>
+
+
+<button class="sheet-item">
+    Налаштування макета
+</button>
+
+
+<button class="sheet-item">
+    Питання та відповіді
+</button>
+
+
+<div class="sheet-warning">
+
+    DEMO • Цей інтерфейс не підключений
+    до державних реєстрів, не підтверджує
+    особу та не є цифровим документом.
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ========================================= */
+/* PAGES */
+/* ========================================= */
+
+const pages = {
+
+    feed:
+        document.getElementById(
+            "feedPage"
+        ),
+
+    documents:
+        document.getElementById(
+            "documentsPage"
+        ),
+
+    ai:
+        document.getElementById(
+            "aiPage"
+        ),
+
+    services:
+        document.getElementById(
+            "servicesPage"
+        ),
+
+    menu:
+        document.getElementById(
+            "menuPage"
+        )
+
+};
+
+
+const navItems =
+    document.querySelectorAll(
+        ".nav-item"
+    );
+
+
+function openPage(name){
+
+    Object
+        .values(pages)
+        .forEach(page=>{
+
+            page.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    navItems.forEach(item=>{
+
+        item.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    pages[name]
+        .classList.add(
+            "active"
+        );
+
+
+    const nav =
+        document.querySelector(
+            `.nav-item[data-page="${name}"]`
+        );
+
+
+    if(nav){
+
+        nav.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+navItems.forEach(item=>{
+
+    item.addEventListener(
+        "click",
+        ()=>{
+
+            openPage(
+                item.dataset.page
+            );
+
+        }
+    );
+
+});
+
+
+/* ========================================= */
+/* DOCUMENT SWIPE DOTS */
+/* ========================================= */
+
+const documentsTrack =
+    document.getElementById(
+        "documentsTrack"
+    );
+
+
+const documentCards =
+    [
+        ...document.querySelectorAll(
+            ".document-card"
+        )
+    ];
+
+
+const documentDots =
+    document.getElementById(
+        "documentDots"
+    );
+
+
+documentCards.forEach(
+    (card,index)=>{
+
+        const dot =
+            document.createElement(
+                "div"
+            );
+
+
+        dot.className =
+            "dot" +
+            (
+                index === 0
+                    ? " active"
+                    : ""
+            );
+
+
+        dot.addEventListener(
+            "click",
+            ()=>{
+
+                card.scrollIntoView({
+
+                    behavior:"smooth",
+
+                    inline:"center",
+
+                    block:"nearest"
+
+                });
+
+            }
+        );
+
+
+        documentDots.appendChild(
+            dot
+        );
+
+    }
+);
+
+
+function updateDocumentDots(){
+
+    const center =
+        documentsTrack.scrollLeft +
+        documentsTrack.clientWidth / 2;
+
+
+    let closest = 0;
+
+    let distance =
+        Infinity;
+
+
+    documentCards.forEach(
+        (card,index)=>{
+
+            const cardCenter =
+                card.offsetLeft +
+                card.offsetWidth / 2;
+
+
+            const d =
+                Math.abs(
+                    center -
+                    cardCenter
+                );
+
+
+            if(d < distance){
+
+                distance = d;
+
+                closest = index;
+
+            }
+
+        }
+    );
+
+
+    [
+        ...documentDots.children
+    ].forEach(
+        (dot,index)=>{
+
+            dot.classList.toggle(
+                "active",
+                index === closest
+            );
+
+        }
+    );
+
+}
+
+
+documentsTrack.addEventListener(
+
+    "scroll",
+
+    updateDocumentDots,
+
+    {
+        passive:true
+    }
+
+);
+
+
+/* ========================================= */
+/* DOCUMENT MENU */
+/* ========================================= */
+
+const overlay =
+    document.getElementById(
+        "overlay"
+    );
+
+
+document
+    .querySelectorAll(
+        ".more"
+    )
+    .forEach(button=>{
+
+        button.addEventListener(
+            "click",
+            event=>{
+
+                event.stopPropagation();
+
+                overlay.classList.add(
+                    "active"
+                );
+
+            }
+        );
+
+    });
+
+
+overlay.addEventListener(
+    "click",
+    event=>{
+
+        if(
+            event.target ===
+            overlay
+        ){
+
+            overlay.classList.remove(
+                "active"
+            );
+
+        }
+
+    }
+);
+
+
+/* ========================================= */
+/* PHOTO */
+/* ========================================= */
+
+const photoInput =
+    document.getElementById(
+        "photoInput"
+    );
+
+
+document
+    .querySelectorAll(
+        ".photo"
+    )
+    .forEach(photo=>{
+
+        photo.addEventListener(
+            "click",
+            ()=>{
+
+                photoInput.click();
+
+            }
+        );
+
+    });
+
+
+photoInput.addEventListener(
+    "change",
+    event=>{
+
+        const file =
+            event.target.files[0];
+
+
+        if(!file){
+            return;
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            ()=>{
+
+                document
+                    .querySelectorAll(
+                        ".userPhoto"
+                    )
+                    .forEach(img=>{
+
+                        img.src =
+                            reader.result;
+
+                        img.style.display =
+                            "block";
+
+                    });
+
+
+                document
+                    .querySelectorAll(
+                        ".photo-placeholder"
+                    )
+                    .forEach(
+                        placeholder=>{
+
+                            placeholder.style.display =
+                                "none";
+
+                        }
+                    );
+
+            };
+
+
+        reader.readAsDataURL(
+            file
+        );
+
+    }
+);
+
+
+/* ========================================= */
+/* QUICK DOCUMENT BUTTON */
+/* ========================================= */
+
+document
+    .querySelectorAll(
+        ".quick-card"
+    )[0]
+    .addEventListener(
+        "click",
+        ()=>{
+
+            openPage(
+                "documents"
+            );
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
