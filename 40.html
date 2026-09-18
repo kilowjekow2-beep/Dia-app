@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Дія</title>
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root{
+    --nav-h:94px;
+    --text:#080b0c;
+    --muted:rgba(8,15,17,.54);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+html{
+    background:#b7d2d9;
+}
+
+body{
+    position:relative;
+    background:transparent;
+    color:var(--text);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        Arial,
+        sans-serif;
+    user-select:none;
+    -webkit-user-select:none;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================================================
+   FLOWING BACKGROUND
+========================================================= */
+
+.flow-background{
+    position:fixed;
+    z-index:0;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    background:
+        linear-gradient(
+            160deg,
+            #a9cbd5 0%,
+            #b8d1d5 31%,
+            #bfd5d0 62%,
+            #ced8bd 100%
+        );
+}
+
+.flow-layer{
+    position:absolute;
+    border-radius:50%;
+    will-change:transform;
+    pointer-events:none;
+}
+
+.flow-blue{
+    width:130vw;
+    height:105vw;
+    left:-65vw;
+    top:-42vw;
+    background:
+        radial-gradient(
+            circle,
+            rgba(84,171,208,.72) 0%,
+            rgba(101,181,207,.52) 30%,
+            rgba(120,190,207,.22) 57%,
+            transparent 75%
+        );
+    filter:blur(48px);
+    animation: moveBlue 11s ease-in-out infinite alternate;
+}
+
+@keyframes moveBlue{
+    0%{ transform: translate3d(-4vw,-2vh,0) scale(1); }
+    35%{ transform: translate3d(18vw,13vh,0) scale(1.12); }
+    70%{ transform: translate3d(32vw,26vh,0) scale(1.22); }
+    100%{ transform: translate3d(12vw,37vh,0) scale(1.14); }
+}
+
+.flow-cyan{
+    width:120vw;
+    height:120vw;
+    right:-67vw;
+    top:-5vw;
+    background:
+        radial-gradient(
+            circle,
+            rgba(103,195,200,.58) 0%,
+            rgba(121,201,194,.40) 32%,
+            rgba(135,207,193,.17) 58%,
+            transparent 76%
+        );
+    filter:blur(53px);
+    animation: moveCyan 14s ease-in-out infinite alternate;
+}
+
+@keyframes moveCyan{
+    0%{ transform: translate3d(7vw,-4vh,0) scale(1); }
+    35%{ transform: translate3d(-18vw,15vh,0) scale(1.17); }
+    70%{ transform: translate3d(-31vw,31vh,0) scale(1.08); }
+    100%{ transform: translate3d(-14vw,43vh,0) scale(1.22); }
+}
+
+.flow-green{
+    width:145vw;
+    height:125vw;
+    left:-55vw;
+    bottom:-58vw;
+    background:
+        radial-gradient(
+            circle,
+            rgba(144,199,148,.65) 0%,
+            rgba(156,205,153,.42) 31%,
+            rgba(171,210,161,.18) 58%,
+            transparent 76%
+        );
+    filter:blur(55px);
+    animation: moveGreen 15s ease-in-out infinite alternate;
+}
+
+@keyframes moveGreen{
+    0%{ transform: translate3d(-5vw,10vh,0) scale(1); }
+    33%{ transform: translate3d(19vw,-12vh,0) scale(1.12); }
+    67%{ transform: translate3d(36vw,-29vh,0) scale(1.20); }
+    100%{ transform: translate3d(15vw,-42vh,0) scale(1.10); }
+}
+
+.flow-warm{
+    width:120vw;
+    height:110vw;
+    right:-55vw;
+    bottom:-48vw;
+    background:
+        radial-gradient(
+            circle,
+            rgba(219,207,139,.55) 0%,
+            rgba(215,208,150,.34) 34%,
+            rgba(215,214,168,.15) 58%,
+            transparent 76%
+        );
+    filter:blur(58px);
+    animation: moveWarm 17s ease-in-out infinite alternate;
+}
+
+@keyframes moveWarm{
+    0%{ transform: translate3d(10vw,9vh,0) scale(1); }
+    40%{ transform: translate3d(-16vw,-12vh,0) scale(1.13); }
+    75%{ transform: translate3d(-31vw,-29vh,0) scale(1.18); }
+    100%{ transform: translate3d(-13vw,-41vh,0) scale(1.10); }
+}
+
+.flow-light{
+    width:100vw;
+    height:100vw;
+    left:5vw;
+    top:27vh;
+    background:
+        radial-gradient(
+            circle,
+            rgba(231,238,220,.58) 0%,
+            rgba(221,233,218,.32) 38%,
+            transparent 72%
+        );
+    filter:blur(62px);
+    animation: moveLight 13s ease-in-out infinite alternate;
+}
+
+@keyframes moveLight{
+    0%{ transform: translate3d(-17vw,-10vh,0) scale(.90); }
+    50%{ transform: translate3d(17vw,13vh,0) scale(1.16); }
+    100%{ transform: translate3d(-4vw,29vh,0) scale(1.02); }
+}
+
+.flow-pink{
+    width:105vw;
+    height:105vw;
+    right:-70vw;
+    top:30vh;
+    background:
+        radial-gradient(
+            circle,
+            rgba(213,169,210,.26) 0%,
+            rgba(208,178,207,.14) 40%,
+            transparent 72%
+        );
+    filter:blur(65px);
+    animation: movePink 18s ease-in-out infinite alternate;
+}
+
+@keyframes movePink{
+    from{ transform: translate3d(10vw,-8vh,0) scale(1); }
+    to{ transform: translate3d(-40vw,28vh,0) scale(1.22); }
+}
+
+.flow-background::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.04),
+            rgba(255,255,255,.01) 40%,
+            rgba(255,255,255,.05)
+        );
+    pointer-events:none;
+}
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+.startup{
+    position:fixed;
+    z-index:90000;
+    inset:0;
+    overflow:hidden;
+    transition:opacity .35s ease, visibility .35s ease;
+}
+
+.startup.finish{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.hello{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    animation: helloShow .32s .05s ease forwards;
+}
+
+@keyframes helloShow{
+    from{ opacity:0; transform:translateY(4px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+.hello.leave{
+    animation: helloLeave .28s ease forwards;
+}
+
+@keyframes helloLeave{
+    to{ opacity:0; transform:translateY(-6px); }
+}
+
+.hello-text{
+    font-size:clamp(53px, 15vw, 71px);
+    line-height:1;
+    font-weight:400;
+    letter-spacing:-3px;
+}
+
+.start-marks{
+    position:absolute;
+    left:50%;
+    bottom:max(53px, calc(env(safe-area-inset-bottom) + 37px));
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.start-mark{
+    width:56px;
+    height:56px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.start-mark.one{
+    background:#050505;
+    color:white;
+    font-size:20px;
+    font-weight:600;
+    letter-spacing:-0.5px;
+}
+
+.start-mark.two{
+    background:transparent;
+    border:2px solid rgba(0,0,0,.85);
+    color:#050505;
+}
+
+/* =========================================================
+   PIN
+========================================================= */
+
+.pin-screen{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.pin-screen.show{
+    visibility:visible;
+    pointer-events:auto;
+    animation: pinShow .38s ease forwards;
+}
+
+@keyframes pinShow{
+    from{ opacity:0; transform:translateY(10px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+.pin-screen.leave{
+    pointer-events:none;
+    animation: pinLeave .30s ease forwards;
+}
+
+@keyframes pinLeave{
+    to{ opacity:0; transform:translateY(-7px); }
+}
+
+.pin-title{
+    font-size:31px;
+    font-weight:450;
+    letter-spacing:-1px;
+}
+
+.pin-note{
+    margin-top:7px;
+    font-size:10px;
+    font-weight:650;
+    color:rgba(0,0,0,.47);
+}
+
+.pin-dots{
+    display:flex;
+    gap:20px;
+    margin:28px 0 33px;
+}
+
+.pin-dot{
+    width:13px;
+    height:13px;
+    border:1.7px solid rgba(0,0,0,.76);
+    border-radius:50%;
+}
+
+.pin-dot.on{
+    background:#090909;
+}
+
+.pin-dots.wrong{
+    animation: pinShake .34s ease;
+}
+
+@keyframes pinShake{
+    25%{ transform:translateX(-7px); }
+    50%{ transform:translateX(7px); }
+    75%{ transform:translateX(-4px); }
+}
+
+.keypad{
+    width:min(300px, 90vw);
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px 20px;
+}
+
+.key{
+    width:72px;
+    height:72px;
+    justify-self:center;
+    border:1px solid rgba(255,255,255,.27);
+    border-radius:50%;
+    background:rgba(255,255,255,.11);
+    color:#080808;
+    font-size:27px;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    transition:transform .10s ease, background .10s ease;
+}
+
+.key:active{
+    transform:scale(.88);
+    background:rgba(255,255,255,.38);
+}
+
+.key.blank{ visibility:hidden; }
+
+.key.del{
+    border:0;
+    background:transparent;
+    font-size:22px;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+    position:fixed;
+    z-index:10;
+    inset:0;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .40s ease;
+}
+
+.app.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+}
+
+/* =========================================================
+   PAGES
+========================================================= */
+
+.page{
+    position:absolute;
+    z-index:10;
+    top:0; left:0; right:0;
+    bottom:var(--nav-h);
+    display:none;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:max(65px, calc(env(safe-area-inset-top) + 48px)) 18px 35px;
+    pointer-events:none;
+    scrollbar-width:none;
+}
+
+.page::-webkit-scrollbar{ display:none; }
+
+.page.active{
+    display:block;
+    pointer-events:auto;
+    animation: pageShow .25s ease;
+}
+
+@keyframes pageShow{
+    from{ opacity:0; transform:translateX(7px); }
+    to{ opacity:1; transform:translateX(0); }
+}
+
+.glass{
+    background:rgba(241,248,246,.28);
+    border:1px solid rgba(255,255,255,.31);
+    backdrop-filter:blur(7px) saturate(88%);
+    -webkit-backdrop-filter:blur(7px) saturate(88%);
+}
+
+.title{
+    font-size:42px;
+    line-height:1;
+    font-weight:420;
+    letter-spacing:-2px;
+}
+
+/* =========================================================
+   FEED
+========================================================= */
+
+.feed-hello{
+    margin:5px 0 27px;
+    font-size:39px;
+    line-height:1.04;
+    font-weight:420;
+    letter-spacing:-1.5px;
+}
+
+.main-card{
+    min-height:218px;
+    padding:22px;
+    border-radius:26px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.main-card h2{
+    font-size:29px;
+    font-weight:470;
+}
+
+.main-card p{
+    max-width:325px;
+    margin-top:14px;
+    font-size:15px;
+    line-height:1.3;
+}
+
+.main-card-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.marks{
+    display:flex;
+    gap:5px;
+}
+
+.mark{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#050505;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+}
+
+.arrow{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#050505;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:25px;
+}
+
+.action{
+    text-align:center;
+    font-size:13px;
+}
+
+.action-icon{
+    width:69px;
+    height:69px;
+    margin:0 auto 9px;
+    border-radius:20px;
+    background:#050505;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.banner{
+    min-height:220px;
+    margin-top:27px;
+    padding:22px;
+    border-radius:27px;
+    background:linear-gradient(140deg, rgba(7,22,14,.93), rgba(19,48,29,.90));
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.banner strong{
+    font-size:37px;
+    line-height:.95;
+}
+
+.banner-bottom{
+    display:flex;
+    justify-content:space-between;
+    font-size:17px;
+}
+
+.section-title{
+    margin:28px 0 14px;
+    font-size:27px;
+    font-weight:500;
+}
+
+.news-date{
+    font-size:12px;
+    color:rgba(8,15,17,.54);
+    margin-bottom:6px;
+}
+
+/* =========================================================
+   DOCUMENTS
+========================================================= */
+
+.documents-page.active{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:0;
+    overflow:hidden;
+}
+
+.doc-track{
+    width:100%;
+    display:flex;
+    gap:13px;
+    overflow-x:auto;
+    padding:max(74px, calc(env(safe-area-inset-top) + 54px)) 8vw 12px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+}
+
+.doc-track::-webkit-scrollbar{ display:none; }
+
+.doc-card{
+    position:relative;
+    flex:0 0 84vw;
+    max-width:410px;
+    height:min(610px, 73dvh);
+    padding:28px 23px 22px;
+    border-radius:30px;
+    scroll-snap-align:center;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    background:linear-gradient(145deg, rgba(240,248,246,.24), rgba(230,240,235,.13));
+    border:1px solid rgba(255,255,255,.27);
+    backdrop-filter:blur(5px) saturate(88%);
+    -webkit-backdrop-filter:blur(5px) saturate(88%);
+    box-shadow:0 10px 30px rgba(20,60,60,.025);
+}
+
+.doc-name{
+    position:relative;
+    z-index:2;
+    font-size:30px;
+    line-height:1.03;
+    font-weight:450;
+    letter-spacing:-1px;
+}
+
+.doc-label{
+    position:relative;
+    z-index:2;
+    display:inline-block;
+    margin-top:9px;
+    padding:4px 8px;
+    border:1px solid rgba(0,0,0,.14);
+    border-radius:7px;
+    font-size:9px;
+    font-weight:750;
+    letter-spacing:.4px;
+}
+
+.doc-content{
+    position:relative;
+    z-index:2;
+    display:flex;
+    gap:17px;
+    margin-top:26px;
+}
+
+.photo{
+    width:143px;
+    height:189px;
+    flex-shrink:0;
+    border-radius:19px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.24);
+    font-size:12px;
+}
+
+.photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+}
+
+.plus{ font-size:29px; }
+
+.info{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.info-label{
+    font-size:13px;
+    color:rgba(0,0,0,.55);
+}
+
+.info-value{
+    margin-top:4px;
+    font-size:17px;
+    font-weight:500;
+    line-height:1.2;
+}
+
+.doc-number-large{
+    font-size:26px;
+    font-weight:600;
+    letter-spacing:1px;
+    margin-top:15px;
+}
+
+.doc-bottom{
+    position:relative;
+    z-index:2;
+}
+
+.ticker{
+    height:31px;
+    margin-bottom:17px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    background:rgba(69,207,112,.62);
+    color:#063b17;
+    white-space:nowrap;
+    font-size:11px;
+}
+
+.ticker span{
+    padding-left:100%;
+    animation: tickerMove 12s linear infinite;
+}
+
+@keyframes tickerMove{
+    to{ transform:translateX(-100%); }
+}
+
+.doc-footer{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+}
+
+.person{
+    font-size:23px;
+    line-height:1.04;
+    font-weight:500;
+    text-transform:uppercase;
+}
+
+.more{
+    width:48px;
+    height:48px;
+    border:0;
+    border-radius:50%;
+    background:#050505;
+    color:white;
+    font-size:20px;
+}
+
+.doc-dots{
+    height:28px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+}
+
+.doc-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:rgba(255,255,255,.48);
+    transition:.2s;
+}
+
+.doc-dot.active{
+    width:22px;
+    border-radius:10px;
+    background:white;
+}
+
+/* =========================================================
+   AI
+========================================================= */
+
+.ai-page{
+    padding:max(67px, calc(env(safe-area-inset-top) + 49px)) 0 0;
+}
+
+.ai-top{
+    padding:0 27px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-size:26px;
+}
+
+.ai-line{
+    height:29px;
+    margin-top:40px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    background:rgba(89,164,221,.20);
+    white-space:nowrap;
+    font-size:11px;
+}
+
+.ai-line span{
+    padding-left:100%;
+    animation: tickerMove 14s linear infinite;
+}
+
+.ai-content{
+    padding:27px 34px 125px;
+}
+
+.today{
+    width:max-content;
+    margin:0 auto 27px;
+    padding:6px 14px;
+    border-radius:20px;
+    background:rgba(255,255,255,.40);
+    font-size:13px;
+}
+
+.ai-message{
+    font-size:18px;
+    line-height:1.35;
+}
+
+.ai-chips{
+    margin-top:38px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:10px;
+}
+
+.ai-chip{
+    padding:10px 15px;
+    border:2px solid rgba(255,255,255,.70);
+    border-radius:20px 20px 3px 20px;
+    background:rgba(255,255,255,.05);
+    font-size:15px;
+}
+
+.ai-input{
+    position:absolute;
+    left:17px; right:17px;
+    bottom:17px;
+    height:67px;
+    padding:0 17px;
+    border:1px solid rgba(255,255,255,.72);
+    border-radius:25px;
+    background:rgba(247,249,248,.68);
+    display:flex;
+    align-items:center;
+    color:#666;
+    backdrop-filter:blur(12px);
+}
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.services-title{
+    font-size:42px;
+    font-weight:420;
+    letter-spacing:-2px;
+}
+
+.services-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:11px;
+    margin-top:22px;
+}
+
+.service{
+    min-height:156px;
+    padding:19px;
+    border-radius:26px;
+    background:rgba(242,248,246,.27);
+    border:1px solid rgba(255,255,255,.30);
+    backdrop-filter:blur(6px);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.service-icon{
+    width:43px;
+    height:43px;
+    border-radius:50%;
+    background:#050505;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.service span{
+    font-size:16px;
+    line-height:1.15;
+}
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.menu-version{
+    font-size:14px;
+    color:var(--muted);
+    margin-top:4px;
+}
+
+.profile{
+    margin-top:22px;
+    padding:20px;
+    border-radius:27px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.profile-icon{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#050505;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+}
+
+.profile strong{
+    font-size:19px;
+}
+
+.profile small{
+    display:block;
+    margin-top:5px;
+    color:var(--muted);
+}
+
+.menu-list{
+    margin-top:12px;
+    border-radius:27px;
+    overflow:hidden;
+}
+
+.menu-row{
+    width:100%;
+    height:66px;
+    padding:0 17px;
+    border:0;
+    border-bottom:1px solid rgba(0,0,0,.06);
+    background:transparent;
+    display:flex;
+    align-items:center;
+    gap:13px;
+    text-align:left;
+}
+
+.menu-row:last-child{ border-bottom:0; }
+
+.menu-icon{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#050505;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.menu-row span{
+    flex:1;
+    font-size:16px;
+}
+
+.btn-logout{
+    width:100%;
+    height:54px;
+    margin-top:20px;
+    border:0;
+    border-radius:22px;
+    background:#050505;
+    color:white;
+    font-size:16px;
+    font-weight:500;
+}
+
+.menu-link{
+    display:block;
+    text-align:center;
+    margin-top:16px;
+    font-size:12px;
+    color:rgba(8,15,17,.6);
+    text-decoration:underline;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.bottom-nav{
+    position:fixed;
+    z-index:50000;
+    left:0; right:0; bottom:0;
+    height:var(--nav-h);
+    padding:11px 2px max(18px, env(safe-area-inset-bottom));
+    background:#020202;
+    display:flex;
+    pointer-events:auto;
+}
+
+.nav{
+    position:relative;
+    z-index:50001;
+    flex:1;
+    height:67px;
+    border:0;
+    background:transparent;
+    color:#777;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    font-size:10px;
+    pointer-events:auto;
+    touch-action:manipulation;
+}
+
+.nav.active{ color:white; }
+
+.nav-icon{
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    pointer-events:none;
+}
+
+.nav span{ pointer-events:none; }
+
+/* =========================================================
+   SHEET
+========================================================= */
+
+.overlay{
+    position:fixed;
+    z-index:90000;
+    inset:0;
+    display:flex;
+    align-items:flex-end;
+    background:rgba(0,0,0,.30);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:.25s;
+}
+
+.overlay.open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+}
+
+.sheet{
+    width:100%;
+    padding:10px 18px max(30px, env(safe-area-inset-bottom));
+    border-radius:30px 30px 0 0;
+    background:#f6f7f6;
+    transform:translateY(100%);
+    transition:transform .35s ease;
+}
+
+.overlay.open .sheet{ transform:translateY(0); }
+
+.handle{
+    width:40px;
+    height:5px;
+    margin:0 auto 16px;
+    border-radius:10px;
+    background:#ccc;
+}
+
+.sheet h2{ margin-bottom:10px; }
+
+.sheet-row{
+    height:52px;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid #ddd;
+}
+
+#photoInput{ display:none; }
+
+@media(max-height:700px){
+    .doc-card{ height:69dvh; }
+    .photo{ width:120px; height:160px; }
+    .key{ width:61px; height:61px; }
+    .keypad{ gap:8px 20px; }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     FLOWING BACKGROUND
+===================================================== -->
+
+<div class="flow-background">
+    <div class="flow-layer flow-blue"></div>
+    <div class="flow-layer flow-cyan"></div>
+    <div class="flow-layer flow-green"></div>
+    <div class="flow-layer flow-warm"></div>
+    <div class="flow-layer flow-light"></div>
+    <div class="flow-layer flow-pink"></div>
+</div>
+
+<!-- =====================================================
+     STARTUP
+===================================================== -->
+
+<div class="startup" id="startup">
+    <div class="hello" id="hello">
+        <div class="hello-text">
+            Привіт 👋
+        </div>
+        <div class="start-marks">
+            <div class="start-mark one">дія</div>
+            <div class="start-mark two">
+                <svg width="24" height="26" viewBox="0 0 24 28" fill="currentColor">
+                    <path d="M11 0h2v9.5c.8-.6 1.8-.9 2.8-.9 1.7 0 3.2.8 4.2 2.1l-1.4 1.4c-.7-.9-1.7-1.4-2.8-1.4-1.6 0-3 1.1-3.4 2.6h3.4v2h-3.9v1.5c1.3.3 2.2 1.5 2.2 2.9v.5c0 1.3-.8 2.4-2 2.8V28h-2v-5c-1.2-.4-2-1.5-2-2.8v-.5c0-1.4.9-2.6 2.2-2.9V15.3H4.4v-2h3.4c-.4-1.5-1.8-2.6-3.4-2.6-1.1 0-2.1.5-2.8 1.4L.2 10.7C1.2 9.4 2.7 8.6 4.4 8.6c1 0 2 .3 2.8.9V0h2v9.5h1.8V0z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="pin-screen" id="pinScreen">
+        <div class="pin-title">Введіть код</div>
+        <div class="pin-note">код 1111</div>
+
+        <div class="pin-dots" id="pinDots">
+            <div class="pin-dot"></div>
+            <div class="pin-dot"></div>
+            <div class="pin-dot"></div>
+            <div class="pin-dot"></div>
+        </div>
+
+        <div class="keypad">
+            <button class="key" data-num="1">1</button>
+            <button class="key" data-num="2">2</button>
+            <button class="key" data-num="3">3</button>
+
+            <button class="key" data-num="4">4</button>
+            <button class="key" data-num="5">5</button>
+            <button class="key" data-num="6">6</button>
+
+            <button class="key" data-num="7">7</button>
+            <button class="key" data-num="8">8</button>
+            <button class="key" data-num="9">9</button>
+
+            <button class="key blank"></button>
+            <button class="key" data-num="0">0</button>
+            <button class="key del" id="deletePin">⌫</button>
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
+<div class="app" id="app">
+
+<input type="file" id="photoInput" accept="image/*">
+
+<!-- =====================================================
+     FEED
+===================================================== -->
+
+<section class="page active" id="feed">
+
+    <div class="feed-hello">
+        Привіт 👋
+    </div>
+
+    <div class="main-card glass">
+        <div>
+            <h2>Незламність</h2>
+            <p>
+                Мапа укриттів, Пунктів незламності та відділень Power Banking. Заява про відсутній зв'язок.
+            </p>
+        </div>
+        <div class="main-card-bottom">
+            <div class="marks">
+                <div class="mark">⚡</div>
+                <div class="mark">🏠</div>
+                <div class="mark">📶</div>
+            </div>
+            <div class="arrow">→</div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <div class="action">
+            <div class="action-icon">⌗</div>
+            Дія Сканер
+        </div>
+
+        <div class="action">
+            <div class="action-icon">🏛</div>
+            Військові<br>облігації
+        </div>
+
+        <div class="action">
+            <div class="action-icon">🔕</div>
+            Відсутній<br>зв'язок
+        </div>
+    </div>
+
+    <div class="banner">
+        <strong>
+            ЛИНИЯ<br>ДРОНІВ
+        </strong>
+        <div class="banner-bottom">
+            <span>Змінити хід подій</span>
+            <span>→</span>
+        </div>
+    </div>
+
+    <div class="section-title">Що нового?</div>
+
+    <div class="main-card glass">
+        <div>
+            <div class="news-date">17 вересня, 11:55</div>
+            <h2>єВідновлення</h2>
+            <p>
+                єВідновлення, єОселя та житлові ваучери в Дії тимчасово недоступні...
+            </p>
+        </div>
+    </div>
+
+    <div class="section-title">Популярні послуги</div>
+
+    <div class="main-card glass" style="min-height:120px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+            <strong style="font-size:18px;">Опитування</strong>
+            <span>→</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- =====================================================
+     DOCUMENTS
+===================================================== -->
+
+<section class="page documents-page" id="documents">
+
+    <div class="doc-track" id="docTrack">
+
+        <!-- DOCUMENT 1: єДокумент -->
+        <article class="doc-card">
+            <div>
+                <div class="doc-name">єДокумент</div>
+                <div class="doc-label">Дійсний</div>
+
+                <div class="doc-content">
+                    <div class="photo uploadPhoto">
+                        <img class="userPhoto">
+                        <div class="placeholder">
+                            <div class="plus">＋</div>
+                            Додати<br>фото
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div>
+                            <div class="info-label">Дата народження:</div>
+                            <div class="info-value">07.07.2010</div>
+                        </div>
+
+                        <div>
+                            <div class="info-label">РНОКПП:</div>
+                            <div class="info-value">4044114239</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-bottom">
+                <div class="ticker">
+                    <span>
+                        Документ оновлено о 19:13 | 17.09.2026 •
+                    </span>
+                </div>
+
+                <div class="doc-footer">
+                    <div class="person">
+                        ЛИСИЦЬКИЙ<br>ІВАН<br>АНАТОЛЬЙОВИЧ
+                    </div>
+
+                    <button class="more">•••</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- DOCUMENT 2: Картка платника податків -->
+        <article class="doc-card">
+            <div>
+                <div class="doc-name">Картка платника<br>податків</div>
+                <div class="doc-label">Дійсний</div>
+
+                <div class="doc-content">
+                    <div class="info">
+                        <div>
+                            <div class="info-label">РНОКПП:</div>
+                            <div class="info-value">4044114239</div>
+                        </div>
+
+                        <div>
+                            <div class="info-label">Ім'я:</div>
+                            <div class="info-value">ЛИСИЦЬКИЙ<br>ІВАН<br>АНАТОЛЬЙОВИЧ</div>
+                        </div>
+
+                        <div>
+                            <div class="info-label">Дата народження:</div>
+                            <div class="info-value">07.07.2010</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-bottom">
+                <div class="ticker">
+                    <span>
+                        Документ оновлено о 19:13 | 17.09.2026 •
+                    </span>
+                </div>
+
+                <div class="doc-footer">
+                    <div class="person">
+                        4044114239
+                    </div>
+
+                    <button class="more">•••</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- DOCUMENT 3: Паспорт громадянина України -->
+        <article class="doc-card">
+            <div>
+                <div class="doc-name">Паспорт громадянина<br>України</div>
+                <div class="doc-label">Дійсний</div>
+
+                <div class="doc-content">
+                    <div class="photo uploadPhoto">
+                        <img class="userPhoto">
+                        <div class="placeholder">
+                            <div class="plus">＋</div>
+                            Додати<br>фото
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div>
+                            <div class="info-label">Дата народження:</div>
+                            <div class="info-value">07.07.2010</div>
+                        </div>
+
+                        <div>
+                            <div class="info-label">Номер:</div>
+                            <div class="info-value">011560638</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-bottom">
+                <div class="ticker">
+                    <span>
+                        Документ оновлено о 19:13 | 17.09.2026 •
+                    </span>
+                </div>
+
+                <div class="doc-footer">
+                    <div class="person">
+                        ЛИСИЦЬКИЙ<br>ІВАН<br>АНАТОЛЬЙОВИЧ
+                    </div>
+
+                    <button class="more">•••</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- DOCUMENT 4: Закордонний паспорт -->
+        <article class="doc-card">
+            <div>
+                <div class="doc-name">Закордонний<br>паспорт</div>
+                <div class="doc-label">Дійсний</div>
+
+                <div class="doc-content">
+                    <div class="photo uploadPhoto">
+                        <img class="userPhoto">
+                        <div class="placeholder">
+                            <div class="plus">＋</div>
+                            Додати<br>фото
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div>
+                            <div class="info-label">Дата народження:</div>
+                            <div class="info-value">07.07.2010</div>
+                        </div>
+
+                        <div>
+                            <div class="info-label">Номер:</div>
+                            <div class="info-value">GN617185</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-bottom">
+                <div class="ticker">
+                    <span>
+                        Документ оновлено о 19:13 | 17.09.2026 •
+                    </span>
+                </div>
+
+                <div class="doc-footer">
+                    <div class="person">
+                        ЛИСИЦЬКИЙ<br>ІВАН<br>АНАТОЛЬЙОВИЧ
+                    </div>
+
+                    <button class="more">•••</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- DOCUMENT 5: Посвідчення водія -->
+        <article class="doc-card">
+            <div>
+                <div class="doc-name">Посвідчення водія</div>
+                <div class="doc-label">Дійсний</div>
+
+                <div class="doc-content">
+                    <div class="photo uploadPhoto">
+                        <img class="userPhoto">
+                        <div class="placeholder">
+                            <div class="plus">＋</div>
+                            Додати<br>фото
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <div>
+                            <div class="info-label">Категорія:</div>
+                            <div class="info-value">A</div>
+                        </div>
+
+                        <div>
+                            <div class="info-label">Номер:</div>
+                            <div class="info-value">BXT482910</div>
+                        </div>
+
+                        <div>
+                            <div class="info-label">Дійсне до:</div>
+                            <div class="info-value">07.07.2032</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-bottom">
+                <div class="ticker">
+                    <span>
+                        Документ оновлено о 19:13 | 17.09.2026 •
+                    </span>
+                </div>
+
+                <div class="doc-footer">
+                    <div class="person">
+                        ЛИСИЦЬКИЙ<br>ІВАН<br>АНАТОЛЬЙОВИЧ
+                    </div>
+
+                    <button class="more">•••</button>
+                </div>
+            </div>
+        </article>
+
+    </div>
+
+    <div class="doc-dots" id="docDots"></div>
+
+</section>
+
+<!-- =====================================================
+     AI
+===================================================== -->
+
+<section class="page ai-page" id="ai">
+
+    <div class="ai-top">
+        <span>☰</span>
+        <span>⌕</span>
+    </div>
+
+    <div class="ai-line">
+        <span>
+            Працюю в тестовому режимі • Працюю в тестовому режимі •
+        </span>
+    </div>
+
+    <div class="ai-content">
+        <div class="today">Сьогодні</div>
+
+        <div class="ai-message">
+            ✦ З'явилася можливість інвестувати у військові облігації через Дію. Це допоможе підтримати економіку та отримати дохід до 17% річних.<br><br>Розповісти детальніше?
+        </div>
+
+        <div class="ai-chips">
+            <div class="ai-chip">Так, цікаво</div>
+            <div class="ai-chip">Які облігації зараз доступні?</div>
+            <div class="ai-chip">Хочу придбати</div>
+        </div>
+    </div>
+
+    <div class="ai-input">
+        ✦ &nbsp;&nbsp; Чим можу допомогти?
+    </div>
+
+</section>
+
+<!-- =====================================================
+     SERVICES
+===================================================== -->
+
+<section class="page" id="services">
+
+    <div class="services-title">
+        Сервіси
+    </div>
+
+    <div class="services-grid">
+        <div class="service">
+            <div class="service-icon">🪖</div>
+            <span>Допомога армії</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">⚡</div>
+            <span>Незламність</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">💳</div>
+            <span>Дія.Картка</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">🏛</div>
+            <span>Військові облігації</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">🔱</div>
+            <span>Лінія дронів</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">🇺🇦</div>
+            <span>Національний кешбек</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">📲</div>
+            <span>Перенесення номера</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">🏚</div>
+            <span>єВідновлення</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">📋</div>
+            <span>Міжнародний Реєстр збитків</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">🏋️</div>
+            <span>Ветеранський спорт</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">🚗</div>
+            <span>Водієві</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">🏠</div>
+            <span>Місце проживання</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">🤖</div>
+            <span>Чатбот єВорог</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">📊</div>
+            <span>Податкові послуги</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">🤝</div>
+            <span>Допомога від держави</span>
+        </div>
+
+        <div class="service">
+            <div class="service-icon">👨‍👩‍👧</div>
+            <span>Сім'я</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- =====================================================
+     MENU
+===================================================== -->
+
+<section class="page" id="menu">
+
+    <div class="title">
+        Меню
+    </div>
+    <div class="menu-version">
+        Версія Дії: 4.37.0.2858
+    </div>
+
+    <div class="profile glass">
+        <div class="profile-icon">
+            👤
+        </div>
+
+        <div>
+            <strong>Лисицький Іван Анатольович</strong>
+            <small>Дія</small>
+        </div>
+    </div>
+
+    <div class="menu-list glass">
+        <button class="menu-row">
+            <div class="menu-icon">🔑</div>
+            <span>Дія.Підпис</span>
+            ›
+        </button>
+
+        <button class="menu-row">
+            <div class="menu-icon">📜</div>
+            <span>Історія підписань</span>
+            ›
+        </button>
+
+        <button class="menu-row">
+            <div class="menu-icon">⚙</div>
+            <span>Налаштування</span>
+            ›
+        </button>
+
+        <button class="menu-row">
+            <div class="menu-icon">🔄</div>
+            <span>Оновити застосунок</span>
+            ›
+        </button>
+
+        <button class="menu-row">
+            <div class="menu-icon">📱</div>
+            <span>Підключені пристрої</span>
+            ›
+        </button>
+
+        <button class="menu-row">
+            <div class="menu-icon">💬</div>
+            <span>Служба підтримки</span>
+            ›
+        </button>
+
+        <button class="menu-row">
+            <div class="menu-icon">📄</div>
+            <span>Копіювати номер пристрою</span>
+            ›
+        </button>
+
+        <button class="menu-row">
+            <div class="menu-icon">❓</div>
+            <span>Питання та відповіді</span>
+            ›
+        </button>
+    </div>
+
+    <button class="btn-logout">Вийти</button>
+
+    <a href="#" class="menu-link">Повідомлення про обробку персональних даних</a>
+
+</section>
+
+<!-- =====================================================
+     BOTTOM NAVIGATION
+===================================================== -->
+
+<nav class="bottom-nav" id="bottomNav">
+
+    <button type="button" class="nav active" data-page="feed">
+        <div class="nav-icon">▤</div>
+        <span>Стрічка</span>
+    </button>
+
+    <button type="button" class="nav" data-page="documents">
+        <div class="nav-icon">▣</div>
+        <span>Документи</span>
+    </button>
+
+    <button type="button" class="nav" data-page="ai">
+        <div class="nav-icon">✦</div>
+        <span>Дія.AI</span>
+    </button>
+
+    <button type="button" class="nav" data-page="services">
+        <div class="nav-icon">◇</div>
+        <span>Сервіси</span>
+    </button>
+
+    <button type="button" class="nav" data-page="menu">
+        <div class="nav-icon">○</div>
+        <span>Меню</span>
+    </button>
+
+</nav>
+
+</div>
+
+<!-- =====================================================
+     DOCUMENT SHEET
+===================================================== -->
+
+<div class="overlay" id="overlay">
+    <div class="sheet">
+        <div class="handle"></div>
+        <h2>Документ</h2>
+
+        <div class="sheet-row">Інформація</div>
+        <div class="sheet-row">Налаштування макета</div>
+        <div class="sheet-row">Допомога</div>
+    </div>
+</div>
+
+<script>
+
+/* =========================================================
+   STARTUP & PIN
+========================================================= */
+
+const startup = document.getElementById("startup");
+const hello = document.getElementById("hello");
+const pinScreen = document.getElementById("pinScreen");
+const app = document.getElementById("app");
+const pinDotsContainer = document.getElementById("pinDots");
+const pinDots = Array.from(document.querySelectorAll(".pin-dot"));
+
+let pin = "";
+let locked = false;
+const correctPin = "1111";
+
+setTimeout(function(){
+    hello.classList.add("leave");
+}, 800);
+
+setTimeout(function(){
+    hello.style.display = "none";
+    pinScreen.classList.add("show");
+}, 1080);
+
+function updatePin(){
+    pinDots.forEach(function(dot,index){
+        dot.classList.toggle("on", index < pin.length);
+    });
+}
+
+function enterNumber(number){
+    if(locked || pin.length >= 4) return;
+    pin += number;
+    updatePin();
+
+    if(pin.length === 4){
+        locked = true;
+        setTimeout(checkPin, 100);
+    }
+}
+
+function checkPin(){
+    if(pin === correctPin){
+        pinScreen.classList.add("leave");
+        setTimeout(function(){ app.classList.add("open"); }, 140);
+        setTimeout(function(){ startup.classList.add("finish"); }, 380);
+        return;
+    }
+
+    pinDotsContainer.classList.remove("wrong");
+    void pinDotsContainer.offsetWidth;
+    pinDotsContainer.classList.add("wrong");
+
+    setTimeout(function(){
+        pin = "";
+        locked = false;
+        updatePin();
+        pinDotsContainer.classList.remove("wrong");
+    }, 400);
+}
+
+document.querySelectorAll("[data-num]").forEach(function(button){
+    button.addEventListener("click", function(){
+        enterNumber(button.dataset.num);
+    });
+});
+
+document.getElementById("deletePin").addEventListener("click", function(){
+    if(locked) return;
+    pin = pin.slice(0, -1);
+    updatePin();
+});
+
+document.addEventListener("keydown", function(event){
+    if(!pinScreen.classList.contains("show")) return;
+    if(/^[0-9]$/.test(event.key)) enterNumber(event.key);
+    if(event.key === "Backspace" && !locked){
+        pin = pin.slice(0, -1);
+        updatePin();
+    }
+});
+
+/* =========================================================
+   PAGES NAVIGATION
+========================================================= */
+
+const pages = {
+    feed: document.getElementById("feed"),
+    documents: document.getElementById("documents"),
+    ai: document.getElementById("ai"),
+    services: document.getElementById("services"),
+    menu: document.getElementById("menu")
+};
+
+const navButtons = Array.from(document.querySelectorAll(".nav"));
+
+function openPage(name){
+    if(!pages[name]) return;
+
+    Object.values(pages).forEach(function(page){
+        page.classList.remove("active");
+    });
+
+    navButtons.forEach(function(button){
+        button.classList.remove("active");
+    });
+
+    pages[name].classList.add("active");
+
+    const button = document.querySelector('.nav[data-page="' + name + '"]');
+    if(button) button.classList.add("active");
+
+    pages[name].scrollTop = 0;
+
+    if(name === "documents"){
+        setTimeout(updateDocumentDots, 50);
+    }
+}
+
+document.getElementById("bottomNav").addEventListener("click", function(event){
+    const button = event.target.closest(".nav");
+    if(!button) return;
+    event.preventDefault();
+    event.stopPropagation();
+    openPage(button.dataset.page);
+});
+
+/* =========================================================
+   DOCUMENT DOTS
+========================================================= */
+
+const docTrack = document.getElementById("docTrack");
+const docCards = Array.from(document.querySelectorAll(".doc-card"));
+const documentDots = document.getElementById("docDots");
+
+docCards.forEach(function(card,index){
+    const dot = document.createElement("div");
+    dot.className = "doc-dot" + (index === 0 ? " active" : "");
+    dot.addEventListener("click", function(){
+        card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    });
+    documentDots.appendChild(dot);
+});
+
+function updateDocumentDots(){
+    if(!docTrack) return;
+    const center = docTrack.scrollLeft + docTrack.clientWidth / 2;
+    let selected = 0;
+    let closest = Infinity;
+
+    docCards.forEach(function(card,index){
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const distance = Math.abs(center - cardCenter);
+        if(distance < closest){
+            closest = distance;
+            selected = index;
+        }
+    });
+
+    Array.from(documentDots.children).forEach(function(dot,index){
+        dot.classList.toggle("active", index === selected);
+    });
+}
+
+docTrack.addEventListener("scroll", updateDocumentDots, { passive:true });
+
+/* =========================================================
+   PHOTO UPLOAD
+========================================================= */
+
+const photoInput = document.getElementById("photoInput");
+
+document.querySelectorAll(".uploadPhoto").forEach(function(photo){
+    photo.addEventListener("click", function(){
+        photoInput.click();
+    });
+});
+
+photoInput.addEventListener("change", function(event){
+    const file = event.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(){
+        document.querySelectorAll(".userPhoto").forEach(function(image){
+            image.src = reader.result;
+            image.style.display = "block";
+        });
+        document.querySelectorAll(".placeholder").forEach(function(item){
+            item.style.display = "none";
+        });
+    };
+    reader.readAsDataURL(file);
+});
+
+/* =========================================================
+   SHEET OVERLAY
+========================================================= */
+
+const overlay = document.getElementById("overlay");
+
+document.querySelectorAll(".more").forEach(function(button){
+    button.addEventListener("click", function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        overlay.classList.add("open");
+    });
+});
+
+overlay.addEventListener("click", function(event){
+    if(event.target === overlay){
+        overlay.classList.remove("open");
+    }
+});
+
+/* START PAGE */
+openPage("feed");
+
+</script>
+
+</body>
+</html>
